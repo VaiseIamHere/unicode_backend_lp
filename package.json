@@ -5,7 +5,8 @@
   "description": "This is unicode task 0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "nodemon index.js"
   },
   "author": "Vaibhav Singh",
   "license": "ISC",
@@ -14,5 +15,8 @@
     "express": "^4.19.2",
     "mongoose": "^8.5.4",
     "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
   }
 }

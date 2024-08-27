@@ -3,9 +3,13 @@
 // const route = express.Router()
 
 import express from "express";
-import controller from "../controllers/crudOperations.js"
+import * as controller from "../controllers/crudOperations.js"
 
 const route = express.Router()
+
+route.get('/', async (req, res) => {
+    res.send("Server Connected")
+})
 
 route.post('/create', controller.createUser)
 
