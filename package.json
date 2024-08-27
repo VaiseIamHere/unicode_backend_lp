@@ -1,11 +1,18 @@
 {
   "name": "lp_task0",
   "version": "1.0.0",
+  "type": "module",
   "description": "This is unicode task 0",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Vaibhav Singh",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "mongoose": "^8.5.4",
+    "morgan": "^1.10.0"
+  }
 }
