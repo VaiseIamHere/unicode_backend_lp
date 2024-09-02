@@ -4,4 +4,6 @@ const route = express.Router()
 
 route.post('/register', controller.registerUser)
 
+route.post('/login', controller.loginUser)
+
 module.exports = route

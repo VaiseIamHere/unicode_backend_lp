@@ -15,8 +15,8 @@ route.get('/', async (req, res) => {
 
 route.get('/view', controller.read)
 
-route.put('/update/:id', controller.update)
+route.put('/update', controller.update)
 
-route.delete('/delete/:id' ,controller.deleteUser)
+route.delete('/delete' ,controller.deleteUser)
 
 module.exports = route

@@ -1,5 +1,6 @@
 // import userModel from "../models/model1.js"
 const user = require('../models/model1.js')
+const bcryptjs = require('bcryptjs')
 
 const errorDetected = async (res, err) =>{
     console.log(err.message)
@@ -18,17 +19,25 @@ const read = async (req, res) => {
 
 const update = async (req, res) => {
     try{
-        id = req.params.id
-        check = !req.body.hasOwnProperty("id")
+        check = req.body.hasOwnProperty("emailId")
         if(check){
-            temp = await user.findOneAndUpdate({"id": id}, req.body, {new: true})
+            updatedUser = {}
+            if(req.body.hasOwnProperty("password")){
+                // const salt = await bcryptjs.genSalt()
+                const hashedPassword = await bcryptjs.hash(req.body.password, 10)
+                updatedUser['password'] = hashedPassword
+            }
+            if(req.body.hasOwnProperty('username')){
+                updatedUser['username'] = req.body.username
+            }
+            temp = await user.findOneAndUpdate({"emailId": req.body.emailId}, updatedUser, {new: true})
             if(temp == null){
                 return res.send("User do not exists !!")
             }
             res.status(200).json(temp)
         }
         else{
-            res.send("Cannot Update user ID !!!")
+            res.send("Cannot Update without email of the user !!!")
         }
     }
     catch(err){
@@ -38,8 +47,11 @@ const update = async (req, res) => {
 
 const deleteUser = async (req, res) => {
     try{
-        id = req.params.id
-        check = await user.deleteMany({"username": id})
+        if(!req.body.hasOwnProperty("emailId")){
+            return res.send("Cannot delete without email of the user !!!")
+        }
+        email = req.body.emailId
+        check = await user.deleteMany({"emailId": email})
         if(check.deletedCount > 0){
             res.send("User deleted sucessfully !!")
         }
