@@ -5,11 +5,11 @@
 // import path from "path"
 // import fs from "fs"
 // import morgan from "morgan"
+require('dotenv').config()
 
 const express = require('express')
 const crudRoute = require('./routes/crudRoutes.js')
 const serviceRoute = require('./routes/serviceRoutes.js')
-const dotenv = require('dotenv')
 const path = require('path')
 const fs = require('fs')
 const morgan = require('morgan')
