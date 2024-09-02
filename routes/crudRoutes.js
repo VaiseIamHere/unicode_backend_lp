@@ -2,9 +2,11 @@
 // const controller = require('./controller.js')
 // const route = express.Router()
 
-import express from "express";
-import * as controller from "../controllers/crudOperations.js"
+// import express from "express";
+// import * as controller from "../controllers/crudOperations.js"
 
+const express = require('express')
+const controller = require('../controllers/crudOperations.js')
 const route = express.Router()
 
 route.get('/', async (req, res) => {
@@ -19,4 +21,4 @@ route.put('/update/:id', controller.update)
 
 route.delete('/delete/:id' ,controller.deleteUser)
 
-export default route
+module.exports = route

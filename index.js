@@ -1,30 +1,29 @@
-import express from "express"
-import mongoose from "mongoose"
-import route from "./routes/crudRoutes.js"
-import dotenv from "dotenv"
+// import express from "express"
+// import mongoose from "mongoose"
+// import route from "./routes/crudRoutes.js"
+// import dotenv from "dotenv"
 // import path from "path"
 // import fs from "fs"
-import morgan from "morgan"
+// import morgan from "morgan"
+
+const express = require('express')
+const route = require('./routes/crudRoutes.js')
+const dotenv = require('dotenv')
+const path = require('path')
+const fs = require('fs')
+const morgan = require('morgan')
+const connectDB = require('./connectDB.js')
 
 const app = express()
+const port = process.env.PORT
 
 dotenv.config()
-// const accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' })
-// , {stream: accessLogStream}
 
+const accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' })
+
+// Middlewares
 app.use(express.json())
-app.use(morgan('combined'))
+app.use(morgan('tiny', { stream: accessLogStream }))
 app.use('/',route)
 
-const port = process.env.PORT || 6969
-console.log(process.env.DATABASE_PATH)
-mongoose.connect("mongodb+srv://singhvaibhav12062005:6hiyUsSZutje1LGj@backendforblog.mh9bml1.mongodb.net/?retryWrites=true&w=majority&appName=BackendForBlog")
-.then(()=>{
-    console.log("Connected to Database.")
-    app.listen(port, () => {
-        console.log(`Server started and Listening at: http://localhost:${port}`)
-    })
-})
-.catch(()=>{
-    console.log("Connection to Database Failed !!")
-})
+connectDB(process.env.PORT, process.env.DATABASE_PATH, app)
