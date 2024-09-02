@@ -13,8 +13,6 @@ route.get('/', async (req, res) => {
     res.send("Server Connected")
 })
 
-route.post('/create', controller.createUser)
-
 route.get('/view', controller.read)
 
 route.put('/update/:id', controller.update)

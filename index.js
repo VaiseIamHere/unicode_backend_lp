@@ -7,7 +7,8 @@
 // import morgan from "morgan"
 
 const express = require('express')
-const route = require('./routes/crudRoutes.js')
+const crudRoute = require('./routes/crudRoutes.js')
+const serviceRoute = require('./routes/serviceRoutes.js')
 const dotenv = require('dotenv')
 const path = require('path')
 const fs = require('fs')
@@ -15,15 +16,14 @@ const morgan = require('morgan')
 const connectDB = require('./connectDB.js')
 
 const app = express()
-const port = process.env.PORT
 
 dotenv.config()
-
 const accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' })
+
+connectDB(process.env.PORT, process.env.DATABASE_PATH, app)
 
 // Middlewares
 app.use(express.json())
 app.use(morgan('tiny', { stream: accessLogStream }))
-app.use('/',route)
-
-connectDB(process.env.PORT, process.env.DATABASE_PATH, app)
+app.use('/',crudRoute)
+app.use('/',serviceRoute)

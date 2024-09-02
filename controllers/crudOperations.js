@@ -6,22 +6,6 @@ const errorDetected = async (res, err) =>{
     res.status(500).json({"Error": err.message})
 }
 
-const createUser = async (req, res) => {
-    existing = await user.find({"username": req.body.name})
-    if(existing.length == 0){
-        try{
-            temp = await user.create(req.body)
-            return res.status(200).json(temp)
-        }
-        catch(err){
-            errorDetected(res, err)
-        }
-    }
-    else{
-        res.status(200).send("Student with same id already exists !!")
-    }
-}
-
 const read = async (req, res) => {
     try{
         temp = await user.find({})
@@ -55,7 +39,7 @@ const update = async (req, res) => {
 const deleteUser = async (req, res) => {
     try{
         id = req.params.id
-        check = await user.deleteMany({"id": id})
+        check = await user.deleteMany({"username": id})
         if(check.deletedCount > 0){
             res.send("User deleted sucessfully !!")
         }
@@ -69,7 +53,6 @@ const deleteUser = async (req, res) => {
 }
 
 module.exports = {
-    createUser,
     read,
     update,
     deleteUser
