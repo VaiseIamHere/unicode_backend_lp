@@ -3,6 +3,7 @@ require('dotenv').config()
 const user = require('../models/model1.js')
 const bcryptjs = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const sendMail = require('./mailservice.js')
 
 
 const registerUser = async (req, res) => {
@@ -14,7 +15,17 @@ const registerUser = async (req, res) => {
             "emailId": req.body.emailId
         })
         if(temp.length == 0){
-            // const salt = await bcryptjs.genSalt()
+            const mail = {
+                'subject': 'Registration Sucessfull !!!',
+                'body': 'You are now a registered user of our website.\nEnjoy our website !!!'
+            }
+            try{
+                await sendMail(req, res, mail)
+            }
+            catch(err){
+                return res.send('Error in mail service')
+            }
+            console.log('mail sent')
             const hashedPassword = await bcryptjs.hash(req.body.password, 10)
             const userObj = await user.create({
                 username: req.body.username,
@@ -28,6 +39,7 @@ const registerUser = async (req, res) => {
         }
     }
     catch(err){
+        console.log('register1')
         console.log(err.message)
         res.status(500).json({"Error": err.message})
     }
@@ -44,6 +56,11 @@ const loginUser = async (req, res) => {
                 'emailId': req.body.emailId
             }
             const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET)
+            const mail = {
+                'subject': 'Logged In sucessfully',
+                'body': 'You logged in to Vaibhav\'s website'
+            }
+            await sendMail(req, res, mail)
             return res.status(200).json({
                 'msg':'Sucessfully Logged In !!!',
                 'accessToken': accessToken
