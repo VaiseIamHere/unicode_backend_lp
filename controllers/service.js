@@ -4,7 +4,6 @@ const user = require('../models/model1.js')
 const bcryptjs = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
-dotenv.config()
 
 const registerUser = async (req, res) => {
     try{
@@ -42,8 +41,7 @@ const loginUser = async (req, res) => {
         }
         if(await bcryptjs.compare(req.body.password, temp[0].password)){
             const payload = {
-                'emailId': req.body.emailId,
-                'password': req.body.password
+                'emailId': req.body.emailId
             }
             const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET)
             return res.status(200).json({

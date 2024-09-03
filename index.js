@@ -17,7 +17,6 @@ const connectDB = require('./connectDB.js')
 
 const app = express()
 
-dotenv.config()
 const accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' })
 
 connectDB(process.env.PORT, process.env.DATABASE_PATH, app)

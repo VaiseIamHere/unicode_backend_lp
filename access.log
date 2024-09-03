@@ -156,3 +156,17 @@ GET /view 200 496 - 23.882 ms
 GET /register 404 147 - 1.971 ms
 POST /register 200 166 - 98.245 ms
 POST /login 200 225 - 73.249 ms
+GET / 200 16 - 1.415 ms
+GET /view 401 14 - 1.012 ms
+POST /register 200 173 - 110.982 ms
+POST /login 200 197 - 74.700 ms
+GET /view 200 837 - 11.474 ms
+GET /update 404 145 - 1.494 ms
+PUT /update 200 173 - 105.250 ms
+GET /view 200 837 - 11.791 ms
+GET /delete 404 145 - 0.398 ms
+DELETE /delete 200 27 - 14.306 ms
+DELETE /delete 200 19 - 12.166 ms
+DELETE /delete 200 19 - 11.846 ms
+DELETE /delete 200 19 - 12.343 ms
+DELETE /delete 200 19 - 11.757 ms

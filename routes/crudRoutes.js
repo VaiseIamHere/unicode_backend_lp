@@ -8,15 +8,16 @@
 const express = require('express')
 const controller = require('../controllers/crudOperations.js')
 const route = express.Router()
+const authenticate = require('../middlewares/authentication.js')
 
 route.get('/', async (req, res) => {
     res.send("Server Connected")
 })
 
-route.get('/view', controller.read)
+route.get('/view', authenticate, controller.read)
 
-route.put('/update', controller.update)
+route.put('/update', authenticate, controller.update)
 
-route.delete('/delete' ,controller.deleteUser)
+route.delete('/delete', authenticate, controller.deleteUser)
 
 module.exports = route
