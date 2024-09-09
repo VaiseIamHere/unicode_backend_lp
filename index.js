@@ -1,6 +1,7 @@
 import express from "express"
 import crudRoute from "./routes/crudRoutes.js"
 import serviceRoute from "./routes/serviceRoutes.js"
+import fileRoute from "./routes/fileRoutes.js"
 import dotenv from "dotenv"
 import path from "path"
 import fs from "fs"
@@ -17,6 +18,8 @@ connectDB(process.env.PORT, process.env.DATABASE_PATH, app)
 
 // Middlewares
 app.use(express.json())
+app.use(express.urlencoded({ extended: false}))
 app.use(morgan('tiny', { stream: accessLogStream }))
-app.use('/',crudRoute)
-app.use('/',serviceRoute)
+app.use('/', serviceRoute)
+app.use('/', crudRoute)
+app.use('/', fileRoute)

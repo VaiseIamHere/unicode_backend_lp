@@ -4,14 +4,12 @@ import authenticate from "../middlewares/authentication.js"
 
 const route = express.Router()
 
-route.get('/', async (req, res) => {
-    res.send("Server Connected")
-})
+route.use(authenticate)
 
-route.get('/view', authenticate, controller.read)
+route.get('/view', controller.read)
 
-route.put('/update', authenticate, controller.update)
+route.put('/update', controller.update)
 
-route.delete('/delete', authenticate, controller.deleteUser)
+route.delete('/delete', controller.deleteUser)
 
 export default route
