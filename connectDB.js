@@ -1,6 +1,6 @@
-const mongoose = require('mongoose')
+import mongoose from "mongoose"
 
-connectDB = (port, path, app) => {
+const connectDB = (port, path, app) => {
     mongoose.connect(path)
     .then(()=>{
         console.log("Connected to Database.")
@@ -13,4 +13,4 @@ connectDB = (port, path, app) => {
     })
 }
 
-module.exports = connectDB
+export default connectDB

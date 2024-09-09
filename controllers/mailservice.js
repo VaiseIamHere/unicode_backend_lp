@@ -1,30 +1,30 @@
-require('dotenv').config()
-const nodemailer = require("nodemailer")
+import dotenv from "dotenv"
+import nodemailer from "nodemailer"
 
+dotenv.config()
 
-const sendMail = async (req, res, mail) => {
+const sendMail = async (req, mail) => {
     const email = {
         from: `"Vaibhav & Co." <${process.env.MAIL}>`,
         to: [req.body.emailId],
         subject: mail.subject,
         text: mail.body
     }
-    console.log(process.env.MAIL)
-        const transporter = nodemailer.createTransport({
-            host: "smtp.gmail.com",
-            port: process.env.MAIL_PORT,
-            secure: true,
-            auth: {
-              user: process.env.MAIL,
-              pass: process.env.MAIL_PASSWORD,
-            }
+    const transporter = nodemailer.createTransport({
+        host: "smtp.gmail.com",
+        port: process.env.MAIL_PORT,
+        secure: true,
+        auth: {
+            user: process.env.MAIL,
+            pass: process.env.MAIL_PASSWORD,
+        }
     })
     try{
-        const info = transporter.sendMail(email)
+        transporter.sendMail(email)
     }
     catch(err){
         console.log(err)
     }
 }
 
-module.exports = sendMail
+export default sendMail

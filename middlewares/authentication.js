@@ -1,5 +1,7 @@
-require('dotenv').config()
-const jwt = require('jsonwebtoken')
+import dotenv from "dotenv"
+import jwt from "jsonwebtoken"
+
+dotenv.config()
 
 const authenticate = (req, res, next) => {
     const authHeader = req.headers['authorization']
@@ -14,4 +16,4 @@ const authenticate = (req, res, next) => {
     })
 }
 
-module.exports = authenticate
+export default authenticate
