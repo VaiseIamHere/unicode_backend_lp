@@ -13,6 +13,11 @@ const userSchema = mongoose.Schema(
         password:{
             type: String,
             required: true
+        },
+        profilePic: {
+            type: String,
+            required: false,
+            default: "No profile pic"
         }
     }
 )
