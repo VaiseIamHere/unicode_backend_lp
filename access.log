@@ -381,3 +381,11 @@ POST /upload 200 272 - 12.263 ms
 POST /upload 200 274 - 10.190 ms
 POST /upload 200 274 - 8.630 ms
 POST /upload 200 274 - 13.708 ms
+GET / 200 16 - 2.682 ms
+GET /favicon.ico 401 14 - 2.735 ms
+GET / 304 - - 0.811 ms
+GET /favicon.ico 401 14 - 0.335 ms
+GET / 304 - - 0.459 ms
+GET /favicon.ico 401 14 - 0.339 ms
+GET /view 401 14 - 0.507 ms
+GET /favicon.ico 401 14 - 0.674 ms

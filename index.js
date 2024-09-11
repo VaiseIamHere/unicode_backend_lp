@@ -2,21 +2,19 @@ import express from "express"
 import crudRoute from "./routes/crudRoutes.js"
 import serviceRoute from "./routes/serviceRoutes.js"
 import fileRoute from "./routes/fileRoutes.js"
-import dotenv from "dotenv"
 import path from "path"
 import fs from "fs"
 import morgan from "morgan"
-import connectDB from "./connectDB.js"
+import connect from "./connect.js"
 
-dotenv.config()
 
 const app = express()
 
 const accessLogStream = fs.createWriteStream(path.join('./access.log'), { flags: 'a' })
 
-connectDB(process.env.PORT, process.env.DATABASE_PATH, app)
+connect.connectDB(app)
+connect.connectCloud()
 
-// Middlewares
 app.use(express.json())
 app.use(express.urlencoded({ extended: false}))
 app.use(morgan('tiny', { stream: accessLogStream }))
