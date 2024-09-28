@@ -19,19 +19,16 @@ const read = async (req, res) => {
 
 const update = async (req, res) => {
     try{
-        const updatedUser = {}
+        const updates = {}
         if(req.body.hasOwnProperty("password")){
             const hashedPassword = await bcryptjs.hash(req.body.password, 10)
-            updatedUser['password'] = hashedPassword
+            updates['password'] = hashedPassword
         }
         if(req.body.hasOwnProperty('username')){
-            updatedUser['username'] = req.body.username
+            updates['username'] = req.body.username
         }
-        const temp = await user.findOneAndUpdate({"emailId": req.user.emailId}, updatedUser, {new: true})
-        if(temp == null){
-            return res.send("User do not exists !!")
-        }
-        res.status(200).json(temp)
+        const temp = await user.findOneAndUpdate({"emailId": req.user.emailId}, updates, {new: true})
+        return res.status(200).json(temp)
     }
     catch(err){
         errorDetected(res, err)
