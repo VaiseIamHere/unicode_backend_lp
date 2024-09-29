@@ -7,8 +7,8 @@ const route = express.Router()
 
 route.use(authenticate)
 
-route.post('/upload', uploadFile.upload.single('profilePic'), controller.uploadFile)
+route.post('/upload', uploadFile.upload.single('profilePic'), controller.uploadPic)
 
-route.delete('/deletePP', controller.deleteFile)
+route.delete('/deletePP', controller.deletePic)
 
 export default route
