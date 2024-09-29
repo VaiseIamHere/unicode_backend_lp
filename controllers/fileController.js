@@ -1,24 +1,44 @@
 import {v2 as cloudinary} from "cloudinary"
 import user from "../models/model1.js"
+import fs from "fs"
 
-const updateProfilePic = async (req, result) => {
-    const updates = {
-        profilePic: result.url
-    }
-    user.findOneAndUpdate({"emailId": req.user.emailId}, updates)
+const deleteFile = (path) => {
+    fs.unlink(path, ((err) => {
+        if(err){
+            console.log("Error in File Deletion(From Server):")
+            console.log(err)
+        }
+    }))
 }
 
-const uploadFile = async (req, res) => {
+const uploadPic = async (req, res) => {
     try{
-        cloudinary.uploader.upload(req.file.path).then(result => updateProfilePic(req, result))
-        return res.send(req.file)
+        const temp = (await user.find({'emailId': req.user.emailId}))[0]
+        if(temp.profilePic == "NoProfilePic"){
+            cloudinary.uploader.upload(req.file.path)
+                .then(async (result) => {
+                    const updates = {
+                        profilePic: result.secure_url
+                    }
+                    await user.findOneAndUpdate({"emailId": req.user.emailId}, updates)
+                    deleteFile(req.file.path)
+                })
+                .catch(() => {
+                    console.log("Upload Failed")
+                })
+            return res.send(req.file)
+        }
+        else{
+            deleteFile(req.file.path)
+            return res.send("ProfilePic already exists !!")
+        }
     }
     catch(err){
         console.log(err.message)
     }
 }
 
-const deleteFile = async (req, res) => {
+const deletePic = async (req, res) => {
     try{
         const temp = (await user.find({'emailId': req.user.emailId}))[0]
         if(temp.profilePic == "NoProfilePic"){
@@ -32,7 +52,9 @@ const deleteFile = async (req, res) => {
             [resource],
             { type: 'upload', resource_type: 'image' }
         )
-        user.findOneAndUpdate({emailId: req.user.emailId}, updates)
+        .then((async (x) => {
+            await user.findOneAndUpdate({emailId: req.user.emailId}, updates)
+        }))
         return res.send("Profile Pic deleted sucessfully !!")
     }
     catch(err){
@@ -41,8 +63,8 @@ const deleteFile = async (req, res) => {
 }
 
 const exports__ = {
-    uploadFile,
-    deleteFile
+    uploadPic,
+    deletePic
 }
 
 export default exports__
