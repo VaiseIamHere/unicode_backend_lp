@@ -9,7 +9,7 @@ const errorDetected = async (res, err) =>{
 
 const read = async (req, res) => {
     try{
-        const temp = await user.find({})
+        const temp = (await user.find({"emailId": req.user.emailId}))[0]
         res.status(200).json(temp)
     }
     catch(err){

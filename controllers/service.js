@@ -20,7 +20,7 @@ const registerUser = async (req, res) => {
                 'body': 'You are now a registered user of our website.\nEnjoy our website !!!'
             }
             try{
-                await sendMail(req, mail)
+                sendMail(req, mail)
             }
             catch(err){
                 return res.send('Error in mail service')
@@ -58,7 +58,7 @@ const loginUser = async (req, res) => {
                 'subject': 'Logged In sucessfully',
                 'body': 'You logged in to Vaibhav\'s website'
             }
-            await sendMail(req, mail)
+            sendMail(req, mail)
             return res.status(200).json({
                 'msg':'Sucessfully Logged In !!!',
                 'accessToken': accessToken

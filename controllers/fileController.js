@@ -5,7 +5,7 @@ const updateProfilePic = async (req, result) => {
     const updates = {
         profilePic: result.url
     }
-    await user.findOneAndUpdate({"emailId": req.user.emailId}, updates)
+    user.findOneAndUpdate({"emailId": req.user.emailId}, updates)
 }
 
 const uploadFile = async (req, res) => {
@@ -32,8 +32,8 @@ const deleteFile = async (req, res) => {
             [resource],
             { type: 'upload', resource_type: 'image' }
         )
-        await user.findOneAndUpdate({emailId: req.user.emailId}, updates)
-        return res.send("ok")
+        user.findOneAndUpdate({emailId: req.user.emailId}, updates)
+        return res.send("Profile Pic deleted sucessfully !!")
     }
     catch(err){
         console.log(err.message)
