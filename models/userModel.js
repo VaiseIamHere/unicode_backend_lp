@@ -16,9 +16,13 @@ const userSchema = mongoose.Schema(
         },
         profilePic: {
             type: String,
-            required: false,
             default: "NoProfilePic"
-        }
+        },
+        resume_url: String,
+        techStack: [String],
+        field_of_Interest: [String],
+        experience: Number,
+        bio: String
     }
 )
 

@@ -1,5 +1,5 @@
 import {v2 as cloudinary} from "cloudinary"
-import user from "../models/model1.js"
+import user from "../models/userModel.js"
 import fs from "fs"
 
 const deleteFile = (path) => {
