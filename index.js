@@ -18,6 +18,10 @@ connect.connectCloud()
 app.use(express.json())
 app.use(express.urlencoded({ extended: false}))
 app.use(morgan('tiny', { stream: accessLogStream }))
+
+app.get('/', (req, res) => {
+    res.send('Hello User !!')
+})
 app.use('/', serviceRoute)
 app.use('/', crudRoute)
 app.use('/', fileRoute)

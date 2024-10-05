@@ -5,7 +5,7 @@ import controller from "../controllers/fileController.js"
 
 const route = express.Router()
 
-route.use(authenticate)
+route.use(authenticate.authenticateUser)
 
 route.post('/upload', uploadFile.upload.single('profilePic'), controller.uploadPic)
 

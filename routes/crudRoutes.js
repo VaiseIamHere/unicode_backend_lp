@@ -1,15 +1,28 @@
 import express from "express"
-import controller from "../controllers/crudOperations.js"
+import companyController from "../controllers/companyCrud.js"
+import userController from "../controllers/userCrud.js"
 import authenticate from "../middlewares/authentication.js"
 
 const route = express.Router()
+const userRoute = express.Router()
+const companyRoute = express.Router()
 
-route.use(authenticate)
+// User routes
+userRoute.use(authenticate.authenticateUser)
 
-route.get('/view', controller.read)
+userRoute.get('/view', userController.read)
+userRoute.put('/update', userController.update)
+userRoute.delete('/delete', userController.deleteUser)
 
-route.put('/update', controller.update)
+// Company routes
+companyRoute.use(authenticate.authenticateCompany)
 
-route.delete('/delete', controller.deleteUser)
+companyRoute.get('/view', companyController.read)
+companyRoute.put('/update', companyController.update)
+companyRoute.delete('/delete', companyController.deleteCompany)
+
+// Main Router
+route.use('/user', userRoute)
+route.use('/company', companyRoute)
 
 export default route

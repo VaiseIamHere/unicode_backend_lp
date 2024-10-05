@@ -1,14 +1,21 @@
 import express from "express"
-import controller from "../controllers/service.js"
+import userController from "../controllers/userService.js"
+import companyController from "../controllers/companyService.js"
 
+const route1 = express.Router()
+const route2 = express.Router()
 const route = express.Router()
 
-route.get('/', async (req, res) => {
-    res.send("Server Connected")
-})
+// User routes
+route1.post('/register', userController.registerUser)
+route1.post('/login', userController.loginUser)
 
-route.post('/register', controller.registerUser)
+// Company routes
+route2.post('/register', companyController.registerCompany)
+route2.post('/login', companyController.loginCompany)
 
-route.post('/login', controller.loginUser)
+// Configuration
+route.use('/user', route1)
+route.use('/company', route2)
 
 export default route
