@@ -11,6 +11,10 @@ const companySchema = mongoose.Schema(
             type: String,
             required: true
         },
+        recruiters: {
+            type: [mongoose.ObjectId],
+            ref: 'recruiter'
+        },
         description: String,
         website: String
     }

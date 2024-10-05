@@ -1,6 +1,6 @@
 import express from "express"
-import companyController from "../controllers/companyCrud.js"
-import userController from "../controllers/userCrud.js"
+import userController from "../controllers/user/userCrud.js"
+import companyController from "../controllers/company/companyCrud.js"
 import authenticate from "../middlewares/authentication.js"
 
 const route = express.Router()

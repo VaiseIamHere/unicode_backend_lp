@@ -29,10 +29,10 @@ export const authenticateCompany = (req, res, next) => {
     })
 }
 
+
 const exports__ = {
     authenticateCompany,
     authenticateUser
 }
 
 export default exports__
-

@@ -1,5 +1,5 @@
 import dotenv from "dotenv"
-import company from "../models/companyModel.js"
+import company from "../../models/companyModel.js"
 import jwt from "jsonwebtoken"
 import bcrypt from "bcryptjs"
 

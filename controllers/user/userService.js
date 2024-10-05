@@ -1,8 +1,8 @@
 import dotenv from "dotenv"
-import user from "../models/userModel.js"
+import user from "../../models/userModel.js"
 import bcryptjs from "bcryptjs"
 import jwt from "jsonwebtoken"
-import sendMail from "./mailservice.js"
+import sendMail from "../mailservice.js"
 
 dotenv.config()
 

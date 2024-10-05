@@ -1,6 +1,5 @@
-import user from "../models/userModel.js"
+import user from "../../models/userModel.js"
 import bcryptjs from "bcryptjs"
-
 
 const errorDetected = async (res, err) =>{
     console.log(err.message)

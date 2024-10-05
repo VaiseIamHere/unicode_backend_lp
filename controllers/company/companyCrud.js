@@ -1,5 +1,5 @@
 import bcrypt from "bcryptjs"
-import company from "../models/companyModel.js"
+import company from "../../models/companyModel.js"
 
 const errorDetected = async (res, err) =>{
     console.log(err.message)

@@ -1,6 +1,6 @@
 import express from "express"
-import userController from "../controllers/userService.js"
-import companyController from "../controllers/companyService.js"
+import userController from "../controllers/user/userService.js"
+import companyController from "../controllers/company/companyService.js"
 
 const route1 = express.Router()
 const route2 = express.Router()
