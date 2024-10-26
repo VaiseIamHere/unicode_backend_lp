@@ -10,7 +10,21 @@ const storage = multer.diskStorage({
     }
 })
 
-const upload = multer({ 'storage': storage })
+// Upload only Images with size less than 1.5MB
+
+const upload = multer({
+    storage: storage,
+    fileFilter: (req, file, cb) => {
+        if(file.mimetype.split('/')[0] == 'image'){
+            cb(null, true)
+        }
+        else{
+            cb(null, false)
+            return cb(new Error("Only image formats supported."))
+        }
+    },
+    limits: { fileSize: 1.5*1024*1024}
+})
 
 const exports__ = {
     upload
