@@ -22,6 +22,6 @@ app.use(morgan('tiny', { stream: accessLogStream }))
 app.get('/', (req, res) => {
     res.send('Hello User !!')
 })
-app.use('/', serviceRoute)
+app.use('/service', serviceRoute)
 app.use('/', crudRoute)
-app.use('/', fileRoute)
+app.use('/file', fileRoute)

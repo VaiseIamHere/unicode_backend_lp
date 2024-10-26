@@ -11,4 +11,6 @@ route.post('/upload', uploadFile.upload.single('profilePic'), controller.uploadP
 
 route.delete('/deletePP', controller.deletePic)
 
+route.put('/update', uploadFile.upload.single('profilePic'), controller.updatePic)
+
 export default route
