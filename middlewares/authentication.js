@@ -29,10 +29,23 @@ export const authenticateCompany = (req, res, next) => {
     })
 }
 
+export const authenticateRecruiter = (req, res, next) => {
+    const authHeader = req.headers['authorization']
+    const token = authHeader && authHeader.split(' ')[1]
+    if(token == null)   return res.status(401).send('Login first !!')
+    
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, recruiter) => {
+        if(err) return res.status(403).send('Authorization Failed !!')
+
+        req.recruiter = recruiter
+        next()
+    })
+}
 
 const exports__ = {
     authenticateCompany,
-    authenticateUser
+    authenticateUser,
+    authenticateRecruiter
 }
 
 export default exports__

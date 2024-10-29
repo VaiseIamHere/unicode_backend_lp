@@ -12,11 +12,10 @@ const companySchema = mongoose.Schema(
             required: true
         },
         recruiters: {
-            type: [mongoose.ObjectId],
-            ref: 'recruiter'
+            type: [String]
         },
         description: String,
-        website: String
+        website_url: String
     }
 )
 

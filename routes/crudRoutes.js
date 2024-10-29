@@ -6,6 +6,7 @@ import authenticate from "../middlewares/authentication.js"
 const route = express.Router()
 const userRoute = express.Router()
 const companyRoute = express.Router()
+const recruiterRoute = express.Router()
 
 // User routes
 userRoute.use(authenticate.authenticateUser)

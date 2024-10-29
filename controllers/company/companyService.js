@@ -12,7 +12,6 @@ const registerCompany = async (req, res) => {
         }
         const hashedPassword = await bcrypt.hash(req.body.password, 10)
         req.body.password = hashedPassword
-        console.log(req.body)
         const comp = await company.create(req.body)
         return res.status(200).send(comp)
     }
@@ -26,19 +25,18 @@ const loginCompany = async (req, res) => {
         if(!(req.body.cname && req.body.password)){
             return res.status(400).send('Credentials required !!')
         }
-        const comp = await company.find({
+        const comp = (await company.find({
             "cname": req.body.cname
-        })
-        if(comp.length == 0){
+        }))[0]
+        if(!comp){
             return res.status(400).send('Cannot find company !!')
         }
-        if(await bcrypt.compare(req.body.password, comp[0].password)){
-
+        if(await bcrypt.compare(req.body.password, comp.password)){
             const payload = {
                 "cname": req.body.cname
             }
             const accessToken = await jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET)
-
+            
             return res.status(200).json({
                 'msg':'Sucessfully Logged In !!!',
                 'accessToken': accessToken

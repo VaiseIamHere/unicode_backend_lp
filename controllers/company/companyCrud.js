@@ -18,12 +18,22 @@ const read = async (req, res) => {
 
 const update = async (req, res) => {
     try{
-        if(req.body.password){
-            const hashedPassword = await bcrypt.hash(req.body.password, 10)
-            req.body.password = hashedPassword
+        const updates = { ...req.body }
+        delete updates.cname
+        if(updates.password){
+            const hashedPassword = await bcrypt.hash(updates.password, 10)
+            updates.password = hashedPassword
         }
-        const newCompany = await company.findOneAndUpdate({"cname": req.company.cname}, req.body, {new: true})
-        return res.status(200).send(newCompany)
+        if(updates.recruiters){
+            updates.$addToSet = {
+                recruiters: {
+                    $each: updates.recruiters
+                }
+            }
+            delete updates.recruiters
+        }
+        const companyUpdate = await company.findOneAndUpdate({"cname": req.company.cname}, updates, {new: true})
+        return res.status(200).send(companyUpdate)
     }
     catch(err){
         errorDetected(res, err)
