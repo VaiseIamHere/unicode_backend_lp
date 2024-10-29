@@ -1,20 +1,9 @@
 import {v2 as cloudinary} from "cloudinary"
-import user from "../models/userModel.js"
-import fs from "fs"
+import user from "../../models/userModel.js"
+import { deleteFile } from "../../utils/deleteFile.js"
 
 
-// Helper Functions:
-// 1. To delete file locally
-const deleteFile = (path) => {
-    fs.unlink(path, ((err) => {
-        if(err){
-            console.log("Error in File Deletion(From Server):")
-            console.log(err)
-        }
-    }))
-}
-
-// 2. To upload to cloudinary
+// Helper functions:
 const uploadToCloudinary = async (req) => {
     try{
         const result = await cloudinary.uploader.upload(req.file.path)
@@ -29,17 +18,17 @@ const uploadToCloudinary = async (req) => {
     }
 }
 
-// 3. To delete from cloudinary
-const deleteFromCloudinary = async (req, temp) => {
+const deleteFromCloudinary = async (req, resource) => {
     const updates = {
         profilePic: "NoProfilePic"
     }
-    const resource = temp.profilePic.split('/').at(-1).split('.')[0]
     await cloudinary.api.delete_resources(
         [resource],
         { type: 'upload', resource_type: 'image' }
     )
+    await user.findOneAndUpdate({"emailId": req.user.emailId}, updates)
 }
+
 
 // Controllers
 const uploadPic = async (req, res) => {
@@ -55,7 +44,8 @@ const uploadPic = async (req, res) => {
         }
     }
     catch(err){
-        console.log(err.message)
+        res.status(404).send(err.message)
+        return console.log(err.message)
     }
 }
 
@@ -65,11 +55,14 @@ const updatePic = async (req, res) => {
         if(temp.profilePic == "NoProfilePic"){
             return res.status(200).send("No Profile Pic")
         }
-        deleteFromCloudinary(req, temp)
+        const resource = temp.profilePic.split('/').at(-1).split('.')[0]
+        deleteFromCloudinary(req, resource)
         uploadToCloudinary(req)
+        return res.status(200).send("Updated.")
     }
     catch(err){
         console.log(err.message)
+        return res.status(404).send(err.message)
     }
 }
 
@@ -79,11 +72,13 @@ const deletePic = async (req, res) => {
         if(temp.profilePic == "NoProfilePic"){
             return res.status(200).send("No Profile Pic Available")
         }
-        deleteFromCloudinary(req, temp)
+        const resource = temp.profilePic.split('/').at(-1).split('.')[0]
+        deleteFromCloudinary(req, resource)
         return res.send("Profile Pic deleted sucessfully !!")
     }
     catch(err){
         console.log(err.message)
+        return res.status(404).send(err.message)
     }
 }
 
