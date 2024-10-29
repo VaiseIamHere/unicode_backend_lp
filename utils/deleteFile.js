@@ -1,6 +1,7 @@
 import fs from "fs"
 
 export const deleteFile = (path) => {
+    console.log(path)
     fs.unlink(path, ((err) => {
         if(err){
             console.log("Error in File Deletion(From Server):")
