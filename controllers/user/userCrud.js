@@ -18,11 +18,26 @@ const read = async (req, res) => {
 
 const update = async (req, res) => {
     try{
-        if(req.body.hasOwnProperty("password")){
-            const hashedPassword = await bcryptjs.hash(req.body.password, 10)
-            req.body.password = hashedPassword
+        const updates = { ...req.body }
+        delete updates.emailId
+        updates.$addToSet = {}
+        if(updates.password){
+            const hashedPassword = await bcryptjs.hash(updates.password, 10)
+            updates.password = hashedPassword
         }
-        const temp = await user.findOneAndUpdate({"emailId": req.user.emailId}, req.body, {new: true})
+        if(updates.techStack){
+            updates.$addToSet.techStack = {
+                $each: updates.techStack
+            }
+            delete updates.techStack
+        }
+        if(updates.field_of_Interest){
+            updates.$addToSet.field_of_Interest = {
+                $each: updates.field_of_Interest
+            }
+            delete updates.field_of_Interest
+        }
+        const temp = await user.findOneAndUpdate({"emailId": req.user.emailId}, updates, {new: true})
         return res.status(200).json(temp)
     }
     catch(err){

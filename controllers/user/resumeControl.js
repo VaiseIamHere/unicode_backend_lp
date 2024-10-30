@@ -1,6 +1,6 @@
 import {v2 as cloudinary} from "cloudinary"
 import user from "../../models/userModel.js"
-import { deleteFile } from "../../utils/deleteFile.js"
+import fs from "fs"
 
 
 // Helper functions:
@@ -11,10 +11,11 @@ const uploadToCloudinary = async (req) => {
             resume_url: result.secure_url
         }
         await user.findOneAndUpdate({"emailId": req.user.emailId}, updates)
-        deleteFile(req.file.path)
+        fs.unlinkSync(req.file.path)
     }
     catch(err){
-        console.log("Error occured in upload")
+        console.log("Error occured in uploadToCloudinary")
+        console.log({Error: err.message})
         throw new Error(err.message)
     }
 }
@@ -41,7 +42,7 @@ const uploadResume = async (req, res) => {
             return res.send(req.file)
         }
         else{
-            deleteFile(req.file.path)
+            fs.unlinkSync(req.file.path)
             return res.send("Resume already exists !!")
         }
     }
@@ -63,6 +64,7 @@ const updateResume = async (req, res) => {
         return res.status(200).send("Updated.")
     }
     catch(err){
+        fs.unlinkSync(req.file.path)
         console.log(err.message)
         return res.status(404).send(err.message)
     }
@@ -84,10 +86,8 @@ const deleteResume = async (req, res) => {
     }
 }
 
-const exports__ = {
+export default {
     uploadResume,
     deleteResume,
     updateResume
 }
-
-export default exports__

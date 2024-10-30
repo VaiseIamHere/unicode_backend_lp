@@ -52,9 +52,7 @@ const loginCompany = async (req, res) => {
     }
 }
 
-const exports__ = {
+export default {
     registerCompany,
     loginCompany
 }
-
-export default exports__

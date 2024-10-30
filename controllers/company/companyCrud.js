@@ -55,10 +55,9 @@ const deleteCompany = async (req, res) => {
     }
 }
 
-const exports__ = {
+
+export default {
     read,
     update,
     deleteCompany
 }
-
-export default exports__

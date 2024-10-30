@@ -1,7 +1,6 @@
 import {v2 as cloudinary} from "cloudinary"
 import user from "../../models/userModel.js"
-import { deleteFile } from "../../utils/deleteFile.js"
-
+import fs from "fs"
 
 // Helper functions:
 const uploadToCloudinary = async (req) => {
@@ -11,7 +10,7 @@ const uploadToCloudinary = async (req) => {
             profilePic: result.secure_url
         }
         await user.findOneAndUpdate({"emailId": req.user.emailId}, updates)
-        deleteFile(req.file.path)
+        fs.unlinkSync(req.file.path)
     }
     catch(err){
         console.log("Error occured in upload")
@@ -39,7 +38,7 @@ const uploadPic = async (req, res) => {
             return res.send(req.file)
         }
         else{
-            deleteFile(req.file.path)
+            fs.unlinkSync(req.file.path)
             return res.send("ProfilePic already exists !!")
         }
     }
@@ -61,6 +60,7 @@ const updatePic = async (req, res) => {
         return res.status(200).send("Updated.")
     }
     catch(err){
+        fs.unlinkSync(req.file.path)
         console.log(err.message)
         return res.status(404).send(err.message)
     }

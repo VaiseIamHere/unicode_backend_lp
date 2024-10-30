@@ -40,9 +40,8 @@ const uploadResume = multer({
     limits: { fileSize: 5*1024*1024}
 })
 
-const exports__ = {
+
+export default {
     uploadImage,
     uploadResume
 }
-
-export default exports__
